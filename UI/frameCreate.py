@@ -68,28 +68,54 @@ def settingsFrame(window):
 def createModelFrame(window):
     """ Initialize the model creation frame of the page. """
     def pathSelect():
-        dataPath = fd.askopenfilename()
-        columns = findColumns(dataPath)
-        comboTarget['values'] = columns
-        comboTarget.set("Choose Target Feature..")
+        dataPath = fd.askopenfilename(filetypes=(('CSV file', '*.csv'),))
+        if dataPath != "":
+            columns = findColumns(dataPath)
+            comboTarget['values'] = columns
+            comboTarget.set("Choose Target Feature..")
+
+    def folderSelect():
+        folderPath = fd.askdirectory()
+        if folderPath == "":
+            lblFolderResult.config(text="**Choose a folder**")
+        else:
+            lblFolderResult.config(text="Folder Found!")
 
     frame = tk.Frame(window)
     tk.Label(frame, text="Model Creation", font=(None, 12)).grid(column=0, row=0, columnspan=3, pady=(15, 5))
 
-    # Initialize the settings options widgets
-    lblLoadData = tk.Label(frame, text="Path to the dataset file:")
+    # Initialize the widgets
+    lblLoadData = tk.Label(frame, text="Load a dataset file:")
     btnLoadData = tk.Button(frame, text="Browse", command=pathSelect, relief="groove")
     comboTarget = ttk.Combobox(frame, state="readonly", width=30)
+
+    lblFolder = tk.Label(frame, text="Where to save the model? ")
+    btnFolder = tk.Button(frame, text="Browse", command=folderSelect, relief="groove")
+    lblFolderResult = tk.Label(frame, text="**Choose a folder**")
+
+    lblModel = tk.Label(frame, text="Choose a Model:")
+    comboModel = ttk.Combobox(frame, values=["Our Naive Bayes", "Our Decision Tree",
+                                             "Sklearn's Naive Bayes", "Sklearn's Decision Tree",
+                                             "Sklearn's KNN", "Sklearn's K-Means"],
+                              state="readonly", width=25)
+    comboModel.set("Our Naive Bayes")
 
     # Placing the widgets on the grid
     lblLoadData.grid(column=0, row=1, sticky="w")
     btnLoadData.grid(column=1, row=1, sticky="w", padx=(5, 0))
     comboTarget.grid(column=2, row=1, sticky="w", padx=(5, 0))
+    lblFolder.grid(column=0, row=2, sticky="w")
+    btnFolder.grid(column=1, row=2, sticky="w", padx=(5, 0))
+    lblFolderResult.grid(column=2, row=2, sticky="w", padx=(5, 0))
+    tk.Label(frame, text="").grid(column=0, row=3)  # Filler lines
+    lblModel.grid(column=0, row=4, sticky="w")
+    comboModel.grid(column=1, row=4, sticky="w", padx=(5, 0), columnspan=2)
 
     return frame
 
 
 def getFrame(window):
+    """ Initialize the main frame. """
     frame = tk.Frame(window)
 
     # Initialize the frame's properties
@@ -98,5 +124,6 @@ def getFrame(window):
 
     settingsFrame(frame).grid(column=0, row=0, sticky="n")
     createModelFrame(frame).grid(column=1, row=0, sticky="n")
+    tk.Button(frame, text="Create and Train the Model!", font=(None, 14)).grid(column=0, row=1, columnspan=2, pady=(20, 0))
 
     return frame

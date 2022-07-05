@@ -5,7 +5,7 @@ import UI.frameCreate
 
 def drawTitle(window):
     tk.Label(window, text="Data Mining - Final Project", font=(None, 32)).pack(pady=(10, 0))
-    tk.Label(window, text="Developed by Din Ezra and Lior Swissa", font=(None, 10)).pack()
+    tk.Label(window, text="Developed by Din Ezra and Lior Swissa", font=(None, 10)).pack(pady=(0, 5))
 
 
 def main():
