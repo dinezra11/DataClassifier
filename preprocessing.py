@@ -11,6 +11,21 @@ from sklearn.model_selection import train_test_split as tts
 from sklearn.preprocessing import StandardScaler
 
 
+def findColumns(path: str):
+    """ Load a data file, and return a list of its columns (features).
+
+    @:param path            The path to the data file.
+
+    @:return                A list of all of the data's columns.
+    """
+    try:
+        data = pd.read_csv(path)
+        columns = list(data.columns)
+        return columns
+    except Exception:
+        raise ValueError("Error! Data path is invalid.")
+
+
 def splitData(data: pd.DataFrame, target: str, ratio):
     """ Split the dataframe to train/test files.
 
