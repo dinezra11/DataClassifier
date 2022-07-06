@@ -21,9 +21,7 @@ def saveModel(filename: str, model):
         pickle.dump(model, file)
         file.close()
     except Exception as e:
-        print("Error! Could not save the model.\n")
-    else:
-        print("Model has been saved successfully!\n")
+        raise "Error! Could not save the model.\n"
 
 
 def loadModel(filepath: str):
@@ -40,4 +38,4 @@ def loadModel(filepath: str):
 
         return model
     except Exception as e:
-        print("Error! Could not save the model.\n")
+        raise "Error! Could not load the model."
