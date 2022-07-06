@@ -11,21 +11,6 @@ from sklearn.model_selection import train_test_split as tts
 from sklearn.preprocessing import StandardScaler
 
 
-def findColumns(path: str):
-    """ Load a data file, and return a list of its columns (features).
-
-    @:param path            The path to the data file.
-
-    @:return                A list of all of the data's columns.
-    """
-    try:
-        data = pd.read_csv(path)
-        columns = list(data.columns)
-        return columns
-    except Exception:
-        raise ValueError("Error! Data path is invalid.")
-
-
 def splitData(data: pd.DataFrame, target: str, ratio):
     """ Split the dataframe to train/test files.
 
@@ -46,13 +31,14 @@ def splitData(data: pd.DataFrame, target: str, ratio):
     return train, test
 
 
-def saveCsv(data: pd.DataFrame, filename: str):
+def saveCsv(data: pd.DataFrame, path: str, filename: str):
     """ Save the dataframe into a csv file.
 
-    @:param data         Dataframe to save.
-    @:param filename     The filename of the new csv file.
+    @:param data            Dataframe to save.
+    @:param path            The path to the folder where to save the file.
+    @:param filename        The filename of the new csv file.
     """
-    data.to_csv(filename + "_clean.csv", index=False)
+    data.to_csv(path + "/" + filename + "_clean.csv", index=False)
 
 
 def fillMissing(data: pd.DataFrame, target: str = None):
@@ -117,7 +103,34 @@ def discretization(data: pd.DataFrame, discType: int, binsNumber: int):
             data[col] = pd.cut(x=data[col], bins=binsNumber)
 
 
-def dataPreprocess(data: pd.DataFrame, target: str, fillMissingCls: bool, normalize: bool, discretizeType: tuple, splitRatio: int):
+def findColumns(path: str):
+    """ Load a data file, and return a list of its columns (features).
+
+    @:param path            The path to the data file.
+
+    @:return                A list of all of the data's columns.
+    """
+    try:
+        data = pd.read_csv(path)
+        columns = list(data.columns)
+        return columns
+    except Exception:
+        raise ValueError("Error! Data path is invalid.")
+
+
+def loadCsv(path: str):
+    """ Load a csv file.
+
+    @:param path            The path to the csv file.
+    @:return                Panda's DataFrame.
+    """
+    try:
+        return pd.read_csv(path)
+    except Exception:
+        raise ValueError("Error! Invalid path for data.")
+
+
+def dataPreprocess(data: pd.DataFrame, target: str, fillMissingCls: bool, normalize: bool, discretizeType: tuple, splitRatio: int, folderPath: str):
     """ Perform a complete pre-processing over the given data.
     Call the above functions to help doing the job.
 
@@ -133,6 +146,7 @@ def dataPreprocess(data: pd.DataFrame, target: str, fillMissingCls: bool, normal
                                 (2, bins_n) -> Based entropy.
                                 None -> No discretization
     @:param splitRation     The ratio for train-test sets splitting.
+    @:param folderPath      The path to the folder where to save the clean csv files.
 
     @:return                The data after pre-processing.
                             The data is returned as a train/test splitted sets.
@@ -158,7 +172,7 @@ def dataPreprocess(data: pd.DataFrame, target: str, fillMissingCls: bool, normal
     train, test = splitData(data, target, splitRatio)
 
     # Save clean data into csv files and return them as dataframe objects
-    saveCsv(train, "train")
-    saveCsv(test, "test")
+    saveCsv(train, folderPath, "train")
+    saveCsv(test, folderPath, "test")
 
     return train, test
