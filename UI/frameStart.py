@@ -20,11 +20,14 @@ def getFrame(window, navigateFunction):
     frame = tk.Frame(window)
 
     # Initialize the frame's widgets
-    tk.Label(frame, text="About Us", font=(None, 24)).pack()
-    tk.Label(frame, text='This project is part of the course "Intro to Data Mining" in SCE.').pack(anchor="w")
+    tk.Label(frame, text="Classifier Project", font=(None, 28)).pack(pady=(40, 0))
 
     # Menu
-    tk.Button(frame, text="Create a Model", relief="groove", font=(None, 12), command=createButton).pack()
-    tk.Button(frame, text="About Us", relief="groove", font=(None, 12), command=aboutButton).pack()
+    tk.Label(frame, text="Main Menu", font=(None, 20)).pack(pady=(20, 2))
+    tk.Button(frame, text="Create a Model", relief="groove", font=(None, 12), command=createButton).pack(pady=(10, 2))
+    tk.Button(frame, text="Test a Model", relief="groove", font=(None, 12)).pack(pady=2)
+    tk.Button(frame, text="About Us", relief="groove", font=(None, 12), command=aboutButton).pack(pady=2)
+
+    tk.Label(frame, text='The project has been developed as part of the "Into to Data Mining" course in SCE.').pack(side="bottom")
 
     return frame
