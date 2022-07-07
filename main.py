@@ -1,5 +1,6 @@
 import tkinter as tk
 
+import UI.frameAbout
 import UI.frameCreate
 
 
@@ -9,6 +10,31 @@ def drawTitle(window):
 
 
 def main():
+    """ Main function.
+    Initialize the project's window and perform navigation across the pages.
+    """
+
+    def navigate(page):
+        """ Navigate the program to another page.
+
+        @:param page            The name of the new page.
+                                Should be one of the constants declared in this file.
+        """
+        nonlocal current
+
+        if type(current) is tk.Frame:
+            current.pack_forget()
+            current.destroy()
+
+        if page == "main":
+            current = UI.frameCreate.getFrame(window, navigate)
+        elif page == "create":
+            current = UI.frameCreate.getFrame(window, navigate)
+        elif page == "about":
+            current = UI.frameAbout.getFrame(window, navigate)
+
+        current.pack(expand=1, fill="both")
+
     # Create new window and calculate the screen's center coordinates
     window = tk.Tk()
     windowSize = (800, 500)
@@ -24,8 +50,9 @@ def main():
     # Draw project's title
     drawTitle(window)
 
-    # Set current active frame:
-    UI.frameCreate.getFrame(window).pack(fill="both")
+    # Set current active page:
+    current = None
+    navigate("about")
 
     window.mainloop()
 

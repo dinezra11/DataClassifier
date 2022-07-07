@@ -258,9 +258,12 @@ class FrameCreateUI:
             self.setOutput("Unexpected error occurred!")
 
 
-
-def getFrame(window):
+def getFrame(window, navigateFunction):
     """ Initialize the main frame. """
+
+    def backButton():
+        navigateFunction("main")
+
     frame = tk.Frame(window)
     userInterface = FrameCreateUI()
 
@@ -273,5 +276,6 @@ def getFrame(window):
     tk.Button(frame, text="Create and Train the Model!", relief="groove", font=(None, 14),
               command=userInterface.createModel).grid(column=0, row=1, columnspan=2, pady=(20, 0))
     userInterface.outputFrame(frame).grid(column=0, row=2, columnspan=2, sticky="w", pady=(35, 0))
+    tk.Button(frame, text="Back to Main Menu", font=(None, 12), command=backButton).grid(column=0, row=3, columnspan=2, sticky="s", pady=10)
 
     return frame
