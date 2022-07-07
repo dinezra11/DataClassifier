@@ -1,7 +1,8 @@
 import tkinter as tk
 
-import UI.frameAbout
+import UI.frameStart
 import UI.frameCreate
+import UI.frameAbout
 
 
 def drawTitle(window):
@@ -26,8 +27,8 @@ def main():
             current.pack_forget()
             current.destroy()
 
-        if page == "main":
-            current = UI.frameCreate.getFrame(window, navigate)
+        if page == "start":
+            current = UI.frameStart.getFrame(window, navigate)
         elif page == "create":
             current = UI.frameCreate.getFrame(window, navigate)
         elif page == "about":
@@ -52,7 +53,7 @@ def main():
 
     # Set current active page:
     current = None
-    navigate("about")
+    navigate("start")
 
     window.mainloop()
 

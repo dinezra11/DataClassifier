@@ -48,7 +48,7 @@ def getFrame(window, navigateFunction):
     """ Initialize the main frame. """
 
     def backButton():
-        navigateFunction("main")
+        navigateFunction("start")
 
     frame = tk.Frame(window)
 
@@ -63,6 +63,6 @@ def getFrame(window, navigateFunction):
                          "and alternative implementations from sklearn library.").pack(anchor="w")
     teamInfoFrame(frame).pack(anchor="w", pady=(55, 0))
 
-    tk.Button(frame, text="Back to Main Menu", font=(None, 12), command=backButton).pack(side="bottom", pady=10)
+    tk.Button(frame, text="Back to Main Menu", relief="groove", font=(None, 12), command=backButton).pack(side="bottom", pady=10)
 
     return frame
