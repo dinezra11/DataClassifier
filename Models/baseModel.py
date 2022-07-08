@@ -3,6 +3,8 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+
 from Models.modelManager import saveModel
 
 
@@ -15,33 +17,18 @@ class BaseModel:
         saveModel(filename, self)
 
     @staticmethod
-    def calculatePerformance(yPredict, yActual):
+    def calculatePerformance(yPredict, yTrue):
         """ Give the model's predictions from the test set and the actual values of the target class, calculate and
         measure the performance of the model and return the details as a dictionary.
 
-        @:param yPredict                The model's predictions.
-        @:param yActual                 The actual values of the target class
+        @:param yPredict        The model's predictions.
+        @:param yTrue           The actual values of the target class
         """
 
-        def accuracy():
-            pass
-
-        def precision():
-            pass
-
-        def recall():
-            pass
-
-        def f_measure():
-            pass
-
-        def confusionMatrix():
-            pass
-
         return {
-            "accuracy": accuracy(),
-            "precision": precision(),
-            "recall": recall(),
-            "f_measure": f_measure(),
-            "confusion matrix": confusionMatrix()
+            "accuracy": accuracy_score(yTrue, yPredict),
+            "precision": precision_score(yTrue, yPredict, average='macro'),
+            "recall": recall_score(yTrue, yPredict, average='macro'),
+            "f_measure": f1_score(yTrue, yPredict, average='macro'),
+            "confusion matrix": confusion_matrix(yTrue, yPredict)
         }

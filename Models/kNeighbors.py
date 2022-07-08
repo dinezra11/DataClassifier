@@ -8,8 +8,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 
+from Models.baseModel import BaseModel
 
-class KNeighbors:
+
+class KNeighbors(BaseModel):
     def __init__(self):
         """ Initialize the model's object. """
         self.model = None
@@ -50,15 +52,8 @@ class KNeighbors:
         for c in x.columns:
             x[c] = self.encoder.fit_transform(x[c])
 
-        print(self.model.predict(x))
+        # Return test measurements
+        return self.calculatePerformance(self.model.predict(x), y)
 
     def predict(self, entry):
         return self.model.predict(entry)
-
-
-le = LabelEncoder()
-train = pd.read_csv("C:/Users/dinez/PycharmProjects/DataMiningProject/train_clean.csv")
-test = pd.read_csv("C:/Users/dinez/PycharmProjects/DataMiningProject/test_clean.csv")
-m = KNeighbors()
-m.train(train, "class", 3)
-m.test(test)
