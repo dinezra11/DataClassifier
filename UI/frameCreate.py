@@ -10,10 +10,10 @@ from tkinter import filedialog as fd
 from tkinter import ttk
 
 from preprocessing import findColumns, loadCsv, dataPreprocess
-from Models.OurNaiveBayes import OurNaiveBayes
-from Models.OurDecisionTree import OurTree
-from Models.NaiveBayes import NaiveBayes
-from Models.DecisionTree import DecisionTree
+from Models.ourNaiveBayes import OurNaiveBayes
+from Models.ourDecisionTree import OurTree
+from Models.naiveBayes import NaiveBayes
+from Models.decisionTree import DecisionTree
 
 
 class FrameCreateUI:

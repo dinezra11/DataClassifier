@@ -6,7 +6,7 @@
 import pandas as pd
 import numpy as np
 from math import log2
-from Models.BaseModel import BaseModel
+from Models.baseModel import BaseModel
 
 
 def calculateEntropy(data, target):

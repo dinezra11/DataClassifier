@@ -9,7 +9,7 @@
 from math import sqrt, pi
 import pandas as pd
 import numpy as np
-from Models.BaseModel import BaseModel
+from Models.baseModel import BaseModel
 
 
 class OurNaiveBayes(BaseModel):
