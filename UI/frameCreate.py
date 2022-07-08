@@ -14,6 +14,7 @@ from Models.ourNaiveBayes import OurNaiveBayes
 from Models.ourDecisionTree import OurTree
 from Models.naiveBayes import NaiveBayes
 from Models.decisionTree import DecisionTree
+from Models.kNeighbors import KNeighbors
 
 
 class FrameCreateUI:
@@ -236,6 +237,8 @@ class FrameCreateUI:
                 input["model"] = NaiveBayes
             elif self.comboModel.get() == "Sklearn's Decision Tree":
                 input["model"] = DecisionTree
+            elif self.comboModel.get() == "Sklearn's KNN":
+                input["model"] = KNeighbors
 
             # Load the dataset
             self.setOutput("Loading dataset..")
@@ -248,14 +251,19 @@ class FrameCreateUI:
             # Model Training
             self.setOutput("Creating and training the model..")
             model = input["model"]()
-            model.train(trainSet, input["target"])
+            if input["model"] == KNeighbors:
+                model.train(trainSet, input["target"], 3)
+            else:
+                model.train(trainSet, input["target"])
+
             model.save(str(input["folderPath"]) + "/model")
 
             self.setOutput("Model has been created, trained and saved. You can go test it now! :)", 0)
         except ValueError as ve:
             self.setOutput(ve.__str__(), -1)
-        except Exception:
+        except Exception as e:
             self.setOutput("Unexpected error occurred!")
+            print(e) # Debug
 
 
 def getFrame(window, navigateFunction):
