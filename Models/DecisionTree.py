@@ -14,9 +14,6 @@ class DecisionTree:
     def train(self, x, y):
         self.model = tree.DecisionTreeClassifier().fit(x, y)
 
-    def save(self, filename: str):
-        pass
-
     def test(self, path: str):
         pass
 

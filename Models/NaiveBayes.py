@@ -24,9 +24,6 @@ class NaiveBayes:
         gnb = GaussianNB()
         self.model = gnb.fit(data.drop(columns=[target]), data[target])
 
-    def save(self, filename: str):
-        pass
-
     def test(self, path: str):
         pass
 
