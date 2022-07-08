@@ -7,8 +7,10 @@
 from sklearn.naive_bayes import GaussianNB
 import pandas as pd
 
+from Models.baseModel import BaseModel
 
-class NaiveBayes:
+
+class NaiveBayes(BaseModel):
     def __init__(self):
         """ Initialize the model's object. """
         self.model = None

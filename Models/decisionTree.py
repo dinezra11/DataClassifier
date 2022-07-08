@@ -6,8 +6,10 @@
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 
+from Models.baseModel import BaseModel
 
-class DecisionTree:
+
+class DecisionTree(BaseModel):
     def __init__(self, path: str = None):
         self.model = None
 
