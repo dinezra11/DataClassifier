@@ -5,7 +5,8 @@
 """
 
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import make_column_transformer
 import pandas as pd
 
 from Models.baseModel import BaseModel
@@ -27,12 +28,11 @@ class KNeighbors(BaseModel):
         """
 
         self.target = target
-        self.encoder = LabelEncoder()
         x = data.drop(columns=[self.target])
         y = data[self.target]
+        self.encoder = make_column_transformer((OneHotEncoder(), x.columns), remainder="passthrough")
 
-        for c in x.columns:
-            x[c] = self.encoder.fit_transform(x[c])
+        x = self.encoder.fit_transform(x)
 
         self.model = KNeighborsClassifier(n_neighbors=k)
         self.model.fit(x, y)
@@ -49,11 +49,17 @@ class KNeighbors(BaseModel):
         x = data.drop(columns=[self.target])
         y = data[self.target]
 
-        for c in x.columns:
-            x[c] = self.encoder.fit_transform(x[c])
+        x = self.encoder.transform(x)
 
         # Return test measurements
         return self.calculatePerformance(self.model.predict(x), y)
 
     def predict(self, entry):
         return self.model.predict(entry)
+
+
+'''train = pd.read_csv("C:/Users/dinez/PycharmProjects/DataMiningProject/train_clean.csv")
+test = pd.read_csv("C:/Users/dinez/PycharmProjects/DataMiningProject/test_clean.csv")
+m = KNeighbors()
+m.train(train, "class", 3)
+print(m.test(test))'''

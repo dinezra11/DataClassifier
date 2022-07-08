@@ -15,6 +15,7 @@ from Models.ourDecisionTree import OurTree
 from Models.naiveBayes import NaiveBayes
 from Models.decisionTree import DecisionTree
 from Models.kNeighbors import KNeighbors
+from Models.kMeans import KMeansModel
 
 
 class FrameCreateUI:
@@ -239,6 +240,8 @@ class FrameCreateUI:
                 input["model"] = DecisionTree
             elif self.comboModel.get() == "Sklearn's KNN":
                 input["model"] = KNeighbors
+            else:
+                input["model"] = KMeansModel
 
             # Load the dataset
             self.setOutput("Loading dataset..")
@@ -251,8 +254,11 @@ class FrameCreateUI:
             # Model Training
             self.setOutput("Creating and training the model..")
             model = input["model"]()
+
             if input["model"] == KNeighbors:
                 model.train(trainSet, input["target"], 3)
+            elif input["model"] == KMeansModel:
+                model.train(trainSet.drop(columns=[input["target"]]), 2)
             else:
                 model.train(trainSet, input["target"])
 
