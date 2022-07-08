@@ -56,10 +56,3 @@ class KNeighbors(BaseModel):
 
     def predict(self, entry):
         return self.model.predict(entry)
-
-
-'''train = pd.read_csv("C:/Users/dinez/PycharmProjects/DataMiningProject/train_clean.csv")
-test = pd.read_csv("C:/Users/dinez/PycharmProjects/DataMiningProject/test_clean.csv")
-m = KNeighbors()
-m.train(train, "class", 3)
-print(m.test(test))'''
