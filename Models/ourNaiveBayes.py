@@ -71,7 +71,7 @@ class OurNaiveBayes(BaseModel):
             print("Error! Please train the model before trying to testing it.")
             return
 
-        success = 0
+        '''success = 0
         failed = 0
 
         for _, row in df.iterrows():
@@ -85,7 +85,14 @@ class OurNaiveBayes(BaseModel):
 
         print("Success:\t", success)
         print("Failed:\t\t", failed)
-        print("Accuracy Rate: ", (success / (success + failed)) * 100, "%")
+        print("Accuracy Rate: ", (success / (success + failed)) * 100, "%")'''
+
+        prediction = []
+        for _, row in df.iterrows():
+            prediction.append([self.predict(row.drop(labels=[self.target]))])
+
+        # Return test measurements
+        return self.calculatePerformance(prediction, df[self.target])
 
     def predict(self, data: dict):
         """ Make a prediction for a specific data entries.
