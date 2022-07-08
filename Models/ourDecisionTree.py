@@ -145,21 +145,12 @@ class OurTree(BaseModel):
             print("Error! Please train the model before trying to testing it.")
             return
 
-        success = 0
-        failed = 0
-
+        prediction = []
         for _, row in df.iterrows():
-            answer = row[self.target]
-            prediction = self.predict(row.drop(labels=[self.target]))
+            prediction.append([self.predict(row.drop(labels=[self.target]))])
 
-            if answer == prediction:
-                success += 1
-            else:
-                failed += 1
-
-        print("Success:\t", success)
-        print("Failed:\t\t", failed)
-        print("Accuracy Rate: ", (success / (success + failed)) * 100, "%")
+        # Return test measurements
+        return self.calculatePerformance(prediction, df[self.target])
 
     def predict(self, query):
         def traverse(tree, instance):
