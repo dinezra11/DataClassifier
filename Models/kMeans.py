@@ -3,7 +3,8 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
-
+import numpy as np
+from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
@@ -33,9 +34,13 @@ class KMeansModel(BaseModel):
         """
 
         encoder = make_column_transformer((OneHotEncoder(), data.columns), remainder="passthrough")
-        data = encoder.fit_transform(data)
+        data = encoder.fit_transform(data).toarray()
 
-        return self.model.fit_predict(data)
+        labels = self.model.fit(data).labels_
+        data = pd.DataFrame(data)
+        data["cluster"] = labels
+
+        return data
 
     def predict(self, entry):
         return self.model.predict(entry)

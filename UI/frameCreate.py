@@ -258,7 +258,7 @@ class FrameCreateUI:
             if input["model"] == KNeighbors:
                 model.train(trainSet, input["target"], 3)
             elif input["model"] == KMeansModel:
-                model.train(trainSet.drop(columns=[input["target"]]), 2)
+                model.train(trainSet.drop(columns=[input["target"]]), 3)
             else:
                 model.train(trainSet, input["target"])
 
