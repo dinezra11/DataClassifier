@@ -106,7 +106,6 @@ class FrameTestUI:
             msg = "Error! " + str(ve)
             lblOutput.config(text=msg, fg="red")
         except Exception as e:
-            print(e)
             lblOutput.config(text="Error! Couldn't perform the testing.", fg="red")
         else:
             lblOutput.config(text="The model has been successfully tested! The results saved in the folder. :)",
