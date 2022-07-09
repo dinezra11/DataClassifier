@@ -99,6 +99,8 @@ class FrameTestUI:
 
             results = model.test(data)
 
+            lblOutput.config(text="The model has been successfully tested! The results saved in the folder. :)",
+                             fg="green")
             if type(model) == KMeansModel:
                 windowResults.showClustering(results)
             else:
@@ -108,9 +110,6 @@ class FrameTestUI:
             lblOutput.config(text=msg, fg="red")
         except Exception as e:
             lblOutput.config(text="Error! Couldn't perform the testing.", fg="red")
-        else:
-            lblOutput.config(text="The model has been successfully tested! The results saved in the folder. :)",
-                             fg="green")
 
 
 def getFrame(window, navigateFunction):
