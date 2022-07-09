@@ -2,6 +2,7 @@ import tkinter as tk
 
 import UI.frameStart
 import UI.frameCreate
+import UI.frameTest
 import UI.frameAbout
 
 
@@ -31,7 +32,9 @@ def main():
             current = UI.frameStart.getFrame(window, navigate)
         elif page == "create":
             current = UI.frameCreate.getFrame(window, navigate)
-        elif page == "about":
+        elif page == "test":
+            current = UI.frameTest.getFrame(window, navigate)
+        else:
             current = UI.frameAbout.getFrame(window, navigate)
 
         current.pack(expand=1, fill="both")

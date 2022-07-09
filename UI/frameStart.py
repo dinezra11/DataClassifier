@@ -14,6 +14,9 @@ def getFrame(window, navigateFunction):
     def createButton():
         navigateFunction("create")
 
+    def testButton():
+        navigateFunction("test")
+
     def aboutButton():
         navigateFunction("about")
 
@@ -25,7 +28,7 @@ def getFrame(window, navigateFunction):
     # Menu
     tk.Label(frame, text="Main Menu", font=(None, 20)).pack(pady=(20, 2))
     tk.Button(frame, text="Create a Model", relief="groove", font=(None, 12), command=createButton).pack(pady=(10, 2))
-    tk.Button(frame, text="Test a Model", relief="groove", font=(None, 12)).pack(pady=2)
+    tk.Button(frame, text="Test a Model", relief="groove", font=(None, 12), command=testButton).pack(pady=2)
     tk.Button(frame, text="About Us", relief="groove", font=(None, 12), command=aboutButton).pack(pady=2)
 
     tk.Label(frame, text='The project has been developed as part of the "Into to Data Mining" course in SCE.').pack(side="bottom")
