@@ -16,6 +16,7 @@ from Models.naiveBayes import NaiveBayes
 from Models.decisionTree import DecisionTree
 from Models.kNeighbors import KNeighbors
 from Models.kMeans import KMeansModel
+from UI.colors import *
 
 
 class FrameCreateUI:
@@ -56,20 +57,20 @@ class FrameCreateUI:
 
         self.norm = True
 
-        frame = tk.Frame(window, highlightbackground="black", highlightthickness=1)
-        tk.Label(frame, text="Pre-Processing Settings", font=(None, 12)).grid(column=0, row=0, columnspan=2,
+        frame = tk.Frame(window, highlightbackground="black", highlightthickness=1, bg=BACKGROUND_COLOR)
+        tk.Label(frame, text="Pre-Processing Settings", font=(TITLE_FONT, 12), bg=BACKGROUND_COLOR, fg=TITLE_COLOR).grid(column=0, row=0, columnspan=2,
                                                                               pady=(15, 5))
 
         # Initialize the settings options widgets
-        lblMissing = tk.Label(frame, text="Missing Values According to:")
+        lblMissing = tk.Label(frame, text="Missing Values According to:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         self.comboMissing = ttk.Combobox(frame, values=["Target Class", "Whole Dataset"], state="readonly", width=15)
         self.comboMissing.set("Target Class")
 
-        lblNorm = tk.Label(frame, text="Normalization:")
+        lblNorm = tk.Label(frame, text="Normalization:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         chkbtnNorm = tk.Checkbutton(frame, text="Apply", variable=self.norm, onvalue=True, offvalue=False)
         chkbtnNorm.select()
 
-        lblDisc = tk.Label(frame, text="Discretization:")
+        lblDisc = tk.Label(frame, text="Discretization:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         self.comboDisc = ttk.Combobox(frame,
                                       values=["No Discretization", "Equal-Width", "Equal-Frequency", "Entropy Based"],
                                       state="readonly", width=15)
@@ -77,10 +78,10 @@ class FrameCreateUI:
 
         inputBins = tk.StringVar()
         inputBins.trace("w", lambda *args: binsTextLimit(inputBins))
-        lblBins = tk.Label(frame, text="Number of Bins:")
+        lblBins = tk.Label(frame, text="Number of Bins:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         self.txtBins = tk.Entry(frame, relief="groove", width=3, bd=2, textvariable=inputBins)
 
-        lblRatio = tk.Label(frame, text="Train-Test Split Ratio:")
+        lblRatio = tk.Label(frame, text="Train-Test Split Ratio:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         self.comboRatio = ttk.Combobox(frame, values=["90% - 10%", "75% - 25%", "70% - 30%", "50% - 50%"],
                                        state="readonly", width=15)
         self.comboRatio.set("75% - 25%")
@@ -94,10 +95,10 @@ class FrameCreateUI:
         self.comboDisc.grid(column=1, row=3, sticky="w", padx=5)
         lblBins.grid(column=0, row=4)
         self.txtBins.grid(column=1, row=4, sticky="w", padx=5)
-        tk.Label(frame, text="").grid(column=0, row=5)  # Filler lines
+        tk.Label(frame, text="", bg=BACKGROUND_COLOR).grid(column=0, row=5)  # Filler lines
         lblRatio.grid(column=0, row=6, sticky="w")
         self.comboRatio.grid(column=1, row=6, sticky="w", padx=5)
-        tk.Label(frame, text="").grid(column=0, row=7)  # Filler lines
+        tk.Label(frame, text="", bg=BACKGROUND_COLOR).grid(column=0, row=7)  # Filler lines
 
         return frame
 
@@ -125,19 +126,19 @@ class FrameCreateUI:
             else:
                 lblFolderResult.config(text="Folder Found!")
 
-        frame = tk.Frame(window)
-        tk.Label(frame, text="Model Creation", font=(None, 12)).grid(column=0, row=0, columnspan=3, pady=(15, 5))
+        frame = tk.Frame(window, bg=BACKGROUND_COLOR)
+        tk.Label(frame, text="Model Creation", font=(TITLE_FONT, 12), bg=BACKGROUND_COLOR, fg=TITLE_COLOR).grid(column=0, row=0, columnspan=3, pady=(15, 5))
 
         # Initialize the widgets
-        lblLoadData = tk.Label(frame, text="Load a dataset file:")
-        btnLoadData = tk.Button(frame, text="Browse", command=pathSelect, relief="groove")
+        lblLoadData = tk.Label(frame, text="Load a dataset file:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
+        btnLoadData = tk.Button(frame, text="Browse", command=pathSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
         self.comboTarget = ttk.Combobox(frame, state="readonly", width=30)
 
-        lblFolder = tk.Label(frame, text="Where to save the model? ")
-        btnFolder = tk.Button(frame, text="Browse", command=folderSelect, relief="groove")
-        lblFolderResult = tk.Label(frame, text="**Choose a folder**")
+        lblFolder = tk.Label(frame, text="Where to save the model? ", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
+        btnFolder = tk.Button(frame, text="Browse", command=folderSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
+        lblFolderResult = tk.Label(frame, text="**Choose a folder**", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
 
-        lblModel = tk.Label(frame, text="Choose a Model:")
+        lblModel = tk.Label(frame, text="Choose a Model:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         self.comboModel = ttk.Combobox(frame, values=["Our Naive Bayes", "Our Decision Tree",
                                                       "Sklearn's Naive Bayes", "Sklearn's Decision Tree",
                                                       "Sklearn's KNN", "Sklearn's K-Means"],
@@ -151,7 +152,7 @@ class FrameCreateUI:
         lblFolder.grid(column=0, row=2, sticky="w")
         btnFolder.grid(column=1, row=2, sticky="w", padx=(5, 0))
         lblFolderResult.grid(column=2, row=2, sticky="w", padx=(5, 0))
-        tk.Label(frame, text="").grid(column=0, row=3)  # Filler lines
+        tk.Label(frame, text="", bg=BACKGROUND_COLOR).grid(column=0, row=3)  # Filler lines
         lblModel.grid(column=0, row=4, sticky="w")
         self.comboModel.grid(column=1, row=4, sticky="w", padx=(5, 0), columnspan=2)
 
@@ -164,9 +165,9 @@ class FrameCreateUI:
         @:param window              The main frame of the page.
         @:return                    The sub-frame as the output.
         """
-        frame = tk.Frame(window)
+        frame = tk.Frame(window, bg=BACKGROUND_COLOR)
 
-        self.lblOutput = tk.Label(frame, text="Output:")
+        self.lblOutput = tk.Label(frame, text="Output:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
 
         # Placing the widgets on the grid
         self.lblOutput.pack()
@@ -278,7 +279,7 @@ def getFrame(window, navigateFunction):
     def backButton():
         navigateFunction("start")
 
-    frame = tk.Frame(window)
+    frame = tk.Frame(window, bg=BACKGROUND_COLOR)
     userInterface = FrameCreateUI()
 
     # Initialize the frame's properties
@@ -287,9 +288,9 @@ def getFrame(window, navigateFunction):
 
     userInterface.settingsFrame(frame).grid(column=0, row=0, sticky="n")
     userInterface.createModelFrame(frame).grid(column=1, row=0, sticky="n")
-    tk.Button(frame, text="Create and Train the Model!", relief="groove", font=(None, 14),
-              command=userInterface.createModel).grid(column=0, row=1, columnspan=2, pady=(20, 0))
+    tk.Button(frame, text="Create and Train the Model!", relief="groove", font=(BUTTON_TEXT, 14),
+              command=userInterface.createModel, bg=BUTTON_BACK, fg=BUTTON_TEXT).grid(column=0, row=1, columnspan=2, pady=(20, 0))
     userInterface.outputFrame(frame).grid(column=0, row=2, columnspan=2, sticky="w", pady=(35, 0))
-    tk.Button(frame, text="Back to Main Menu", relief="groove", font=(None, 12), command=backButton).grid(column=0, row=3, columnspan=2, sticky="s", pady=10)
+    tk.Button(frame, text="Back to Main Menu", relief="groove", font=(BUTTON_TEXT, 12), command=backButton, bg=BUTTON_BACK, fg=BUTTON_TEXT).grid(column=0, row=3, columnspan=2, sticky="s", pady=10)
 
     return frame

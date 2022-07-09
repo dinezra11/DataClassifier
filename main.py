@@ -4,11 +4,12 @@ import UI.frameStart
 import UI.frameCreate
 import UI.frameTest
 import UI.frameAbout
+from UI.colors import *
 
 
 def drawTitle(window):
-    tk.Label(window, text="Data Mining - Final Project", font=(None, 32)).pack(pady=(10, 0))
-    tk.Label(window, text="Developed by Din Ezra and Lior Swissa", font=(None, 10)).pack(pady=(0, 5))
+    tk.Label(window, text="Data Mining - Final Project", bg=BACKGROUND_COLOR, fg=TITLE_COLOR, font=(TITLE_FONT, 32)).pack(pady=(10, 0))
+    tk.Label(window, text="Developed by Din Ezra and Lior Swissa", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=(TEXT_FONT, 10)).pack(pady=(0, 5))
 
 
 def main():
@@ -45,6 +46,7 @@ def main():
     windowPos = (int(window.winfo_screenwidth() / 2 - windowSize[0] / 2),
                  int(window.winfo_screenheight() / 2 - windowSize[1] / 2))
     windowTitle = "Data Mining Final Project"
+    window.config(background=BACKGROUND_COLOR)
 
     # Initialize project's window properties
     window.title(windowTitle)

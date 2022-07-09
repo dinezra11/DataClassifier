@@ -19,6 +19,7 @@ from Models.ourDecisionTree import OurTree
 from Models.ourNaiveBayes import OurNaiveBayes
 from UI import windowResults
 from preprocessing import loadCsv
+from UI.colors import *
 
 
 class FrameTestUI:
@@ -73,14 +74,14 @@ class FrameTestUI:
             else:
                 lblFolderResult.config(text="Folder Found!", fg="green")
 
-        btnModel = tk.Button(frame, text="Load Model", command=modelSelect, relief="groove")
-        lblModelResult = tk.Label(frame, text="")
+        btnModel = tk.Button(frame, text="Load Model", command=modelSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
+        lblModelResult = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
 
-        btnData = tk.Button(frame, text="Load Testing Data", command=dataSelect, relief="groove")
-        lblDataResult = tk.Label(frame, text="")
+        btnData = tk.Button(frame, text="Load Testing Data", command=dataSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
+        lblDataResult = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
 
-        btnFolder = tk.Button(frame, text="Select Folder For Results", command=folderSelect, relief="groove")
-        lblFolderResult = tk.Label(frame, text="")
+        btnFolder = tk.Button(frame, text="Select Folder For Results", command=folderSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
+        lblFolderResult = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
 
         # Placing widgets
         btnModel.pack()
@@ -121,16 +122,16 @@ def getFrame(window, navigateFunction):
     def testButton():
         ui.performTesting(lblOutput)
 
-    frame = tk.Frame(window)
+    frame = tk.Frame(window, bg=BACKGROUND_COLOR)
     ui = FrameTestUI()
-    tk.Label(frame, text="Model Testing", font=(None, 24)).pack()
+    tk.Label(frame, text="Model Testing", font=(TITLE_FONT, 24), bg=BACKGROUND_COLOR, fg=TITLE_COLOR).pack()
 
     # Initialize the widgets
     ui.inputComponents(frame)
 
-    tk.Button(frame, text="Perform Testing!", relief="groove", font=(None, 20), command=testButton).pack(pady=(20, 0))
-    lblOutput = tk.Label(frame, text="")
+    tk.Button(frame, text="Perform Testing!", relief="groove", font=(BUTTON_TEXT, 20), command=testButton, bg=BUTTON_BACK, fg=BUTTON_TEXT).pack(pady=(20, 0))
+    lblOutput = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
     lblOutput.pack()
-    tk.Button(frame, text="Back to Main Menu", relief="groove", font=(None, 12), command=backButton).pack(side="bottom", pady=10)
+    tk.Button(frame, text="Back to Main Menu", relief="groove", font=(BUTTON_TEXT, 12), command=backButton, bg=BUTTON_BACK, fg=BUTTON_TEXT).pack(side="bottom", pady=10)
 
     return frame
