@@ -235,8 +235,7 @@ class FrameCreateUI:
                 "norm": self.norm,
                 "splitRatio": int(self.comboRatio.get()[:2]),
                 "target": self.comboTarget.get(),
-                "folderPath": self.folderPath,
-                "k": int(self.txtK.get())
+                "folderPath": self.folderPath
             }
             if self.comboDisc.get() == "Equal-Width":
                 input["disc"] = (0, int(self.txtBins.get()))
@@ -257,8 +256,10 @@ class FrameCreateUI:
                 input["model"] = DecisionTree
             elif self.comboModel.get() == "Sklearn's KNN":
                 input["model"] = KNeighbors
+                input["k"] = int(self.txtK.get())
             else:
                 input["model"] = KMeansModel
+                input["k"] = int(self.txtK.get())
 
             # Load the dataset
             self.setOutput("Loading dataset..")
