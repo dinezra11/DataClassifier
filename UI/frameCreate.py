@@ -37,6 +37,7 @@ class FrameCreateUI:
         self.folderPath = None
         self.comboTarget = None
         self.comboModel = None
+        self.txtK = None
 
         # Output/Error Variables
         self.lblOutput = None
@@ -126,10 +127,17 @@ class FrameCreateUI:
             else:
                 lblFolderResult.config(text="Folder Found!")
 
+        def textLimit(txt):
+            """ Limit the input from the user to be digits only and maximum of 2 digits. """
+            if len(txt.get()) > 2:
+                txt.set(txt.get()[:2])
+            if txt.get() != "" and txt.get()[-1] not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                txt.set(txt.get()[:-1])
+
         frame = tk.Frame(window, bg=BACKGROUND_COLOR)
         tk.Label(frame, text="Model Creation", font=(TITLE_FONT, 12), bg=BACKGROUND_COLOR, fg=TITLE_COLOR).grid(column=0, row=0, columnspan=3, pady=(15, 5))
 
-        # Initialize the widgets
+        # Classification Frame
         lblLoadData = tk.Label(frame, text="Load a dataset file:", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
         btnLoadData = tk.Button(frame, text="Browse", command=pathSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
         self.comboTarget = ttk.Combobox(frame, state="readonly", width=30)
@@ -145,6 +153,11 @@ class FrameCreateUI:
                                        state="readonly", width=25)
         self.comboModel.set("Our Naive Bayes")
 
+        inputK = tk.StringVar()
+        inputK.trace("w", lambda *args: textLimit(inputK))
+        lblK = tk.Label(frame, text="K (neighbors/clusters):", bg=BACKGROUND_COLOR, fg=TEXT_COLOR)
+        self.txtK = tk.Entry(frame, relief="groove", width=3, bd=2, textvariable=inputK)
+
         # Placing the widgets on the grid
         lblLoadData.grid(column=0, row=1, sticky="w")
         btnLoadData.grid(column=1, row=1, sticky="w", padx=(5, 0))
@@ -155,6 +168,8 @@ class FrameCreateUI:
         tk.Label(frame, text="", bg=BACKGROUND_COLOR).grid(column=0, row=3)  # Filler lines
         lblModel.grid(column=0, row=4, sticky="w")
         self.comboModel.grid(column=1, row=4, sticky="w", padx=(5, 0), columnspan=2)
+        lblK.grid(column=0, row=5, sticky="w", pady=(10, 0))
+        self.txtK.grid(column=1, row=5, sticky="w", padx=(5, 0), pady=(10, 0))
 
         return frame
 
@@ -220,7 +235,8 @@ class FrameCreateUI:
                 "norm": self.norm,
                 "splitRatio": int(self.comboRatio.get()[:2]),
                 "target": self.comboTarget.get(),
-                "folderPath": self.folderPath
+                "folderPath": self.folderPath,
+                "k": int(self.txtK.get())
             }
             if self.comboDisc.get() == "Equal-Width":
                 input["disc"] = (0, int(self.txtBins.get()))
@@ -257,9 +273,9 @@ class FrameCreateUI:
             model = input["model"]()
 
             if input["model"] == KNeighbors:
-                model.train(trainSet, input["target"], 3)
+                model.train(trainSet, input["target"], input["k"])
             elif input["model"] == KMeansModel:
-                model.train(trainSet.drop(columns=[input["target"]]), 3)
+                model.train(trainSet.drop(columns=[input["target"]]), input["k"])
             else:
                 model.train(trainSet, input["target"])
 
@@ -269,7 +285,7 @@ class FrameCreateUI:
         except ValueError as ve:
             self.setOutput(ve.__str__(), -1)
         except Exception as e:
-            self.setOutput("Unexpected error occurred!")
+            self.setOutput("Unexpected error occurred!", -1)
             print(e) # Debug
 
 
