@@ -1,5 +1,8 @@
 """ This file contains only constants for the color of the GUI.
 We define all of the color values here for easy and fast maintenance.
+
+    Authors:  Din Ezra      208273094
+              Lior Swissa   318657384
 """
 
 # Colors

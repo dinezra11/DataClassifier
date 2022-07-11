@@ -1,3 +1,12 @@
+""" Main script!
+    To run the system, run this file. The main function is included here.
+
+    This file is in charge of initializing the system's window, showing the current page to the user and perform
+    navigation between different pages.
+
+    Authors:  Din Ezra      208273094
+              Lior Swissa   318657384
+"""
 import tkinter as tk
 
 import UI.frameStart
