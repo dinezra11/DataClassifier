@@ -58,7 +58,7 @@ class FrameCreateUI:
 
         self.norm = True
 
-        frame = tk.Frame(window, highlightbackground="black", highlightthickness=1, bg=BACKGROUND_COLOR)
+        frame = tk.Frame(window, highlightbackground="green", highlightthickness=1, bg=BACKGROUND_COLOR)
         tk.Label(frame, text="Pre-Processing Settings", font=(TITLE_FONT, 12), bg=BACKGROUND_COLOR, fg=TITLE_COLOR).grid(column=0, row=0, columnspan=2,
                                                                               pady=(15, 5))
 
