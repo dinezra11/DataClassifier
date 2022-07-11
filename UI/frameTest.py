@@ -111,8 +111,6 @@ class FrameTestUI:
             model = loadModel(self.modelPath)
             train = loadCsv(self.trainPath)
             test = loadCsv(self.dataPath)
-            txtTrain = self.folderPath + "/Train Results.txt"
-            txtTest = self.folderPath + "/Test Results.txt"
 
             resultsTrain = model.test(train)
             resultsTest = model.test(test)
@@ -123,8 +121,7 @@ class FrameTestUI:
             if type(model) == KMeansModel:
                 windowResults.showClustering(resultsTrain, resultsTest)
             else:
-                windowResults.showResults(resultsTrain, txtTrain)
-                windowResults.showResults(resultsTest, txtTest)
+                windowResults.showResults(resultsTrain, resultsTest, self.folderPath)
         except ValueError as ve:
             msg = "Error! " + str(ve)
             lblOutput.config(text=msg, fg="red")

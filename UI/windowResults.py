@@ -17,18 +17,18 @@ from sklearn.decomposition import PCA
 import tkinter as tk
 
 
-def showResults(results: dict, txtFile: str):
+def frameResults(root, results: dict, txtFile: str):
     """ Create a new window for showing the results of the model testing.
 
     @:param results         The dictionary of the testint results.
     @:param txtFile         The path to the file where to save the results.
     """
 
-    def frameMatrix(root):
+    def frameMatrix():
         """ Draw the Confusion Matrix. """
         mat = results["confusion matrix"]
         tp, fp, fn, tn = str(mat[0][0]), str(mat[0][1]), str(mat[1][0]), str(mat[1][1])
-        frame = tk.Frame(root)
+        frame = tk.Frame(subFrame)
 
         tk.Label(frame, text="Actual", fg="gray").grid(column=2, row=0, columnspan=2)
         tk.Label(frame, text="True").grid(column=2, row=1)
@@ -48,7 +48,7 @@ def showResults(results: dict, txtFile: str):
     # Save results
     report = "Accuracy: " + str(results["accuracy"]) + "\n" + "Precision: " + str(
         results["precision"]) + "\n" + "Recall: " + str(results["recall"]) + "\n" "F Measure: " + str(
-        results["f_measure"]) + "\n\n"
+        results["f_measure"]) + ""
     confMat = "True Positive: " + str(results["confusion matrix"][0][0]) + "\nFalse Positive: " + str(
         results["confusion matrix"][0][1]) + "\nFalse Negative: " + str(
         results["confusion matrix"][1][0]) + "\nTrue Negative: " + str(results["confusion matrix"][1][1])
@@ -56,11 +56,24 @@ def showResults(results: dict, txtFile: str):
         f.write(str(report) + str(confMat))
 
     # Show results in new tkinter's window
+    subFrame = tk.Frame(root)
+    tk.Label(subFrame, text=report).pack()
+    frameMatrix().pack()
+
+    return subFrame
+
+
+def showResults(train: dict, test: dict, filePath: str):
+    # Show results in new tkinter's window
     window = tk.Tk()
     window.title("Model's Score")
     window.resizable(False, False)
-    tk.Label(window, text=report).pack()
-    frameMatrix(window).pack(pady=10)
+    tk.Label(window, text="Model's score on Train-Set", font=(None, 18)).pack()
+    frameResults(window, train, filePath + "/Train Results.txt").pack(pady=(5, 15))
+    tk.Label(window, text="Model's score on Test-Set", font=(None, 18)).pack(pady=(5, 0))
+    frameResults(window, test, filePath + "/Test Results.txt").pack(pady=5)
+
+    window.mainloop()
 
 
 def showClustering(train, test):
