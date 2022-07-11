@@ -30,6 +30,7 @@ class FrameTestUI:
     def __init__(self):
         # Settings Variables
         self.modelPath = None
+        self.trainPath = None
         self.dataPath = None
         self.folderPath = None
 
@@ -58,6 +59,14 @@ class FrameTestUI:
                 lblModelResult.config(text="Invalid model file..", fg="red")
                 self.modelPath = None
 
+        def trainSelect():
+            self.trainPath = fd.askopenfilename(filetypes=(('CSV file', '*.csv'),))
+            if self.trainPath == "":
+                lblTrainResult.config(text="No data loaded..", fg="red")
+                self.trainPath = None
+            else:
+                lblTrainResult.config(text="Data Loaded!", fg="green")
+
         def dataSelect():
             self.dataPath = fd.askopenfilename(filetypes=(('CSV file', '*.csv'),))
             if self.dataPath == "":
@@ -77,8 +86,15 @@ class FrameTestUI:
         btnModel = tk.Button(frame, text="Load Model", command=modelSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
         lblModelResult = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
 
-        btnData = tk.Button(frame, text="Load Testing Data", command=dataSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
-        lblDataResult = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
+        dataFrame = tk.Frame(frame, bg=BACKGROUND_COLOR)
+        btnTrain = tk.Button(dataFrame, text="Load Training Data", command=trainSelect, relief="groove", bg=BUTTON_BACK,fg=BUTTON_TEXT)
+        lblTrainResult = tk.Label(dataFrame, text="", bg=BACKGROUND_COLOR)
+        btnData = tk.Button(dataFrame, text="Load Testing Data", command=dataSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
+        lblDataResult = tk.Label(dataFrame, text="", bg=BACKGROUND_COLOR)
+        btnTrain.grid(column=0, row=0, padx=10)
+        lblTrainResult.grid(column=0, row=1)
+        btnData.grid(column=1, row=0, padx=10)
+        lblDataResult.grid(column=1, row=1)
 
         btnFolder = tk.Button(frame, text="Select Folder For Results", command=folderSelect, relief="groove", bg=BUTTON_BACK, fg=BUTTON_TEXT)
         lblFolderResult = tk.Label(frame, text="", bg=BACKGROUND_COLOR)
@@ -86,25 +102,29 @@ class FrameTestUI:
         # Placing widgets
         btnModel.pack()
         lblModelResult.pack()
-        btnData.pack(pady=(10, 0))
-        lblDataResult.pack()
+        dataFrame.pack(pady=(10, 0))
         btnFolder.pack(pady=(10, 0))
         lblFolderResult.pack()
 
     def performTesting(self, lblOutput):
         try:
             model = loadModel(self.modelPath)
-            data = loadCsv(self.dataPath)
-            txtFile = self.folderPath + "/Test Results.txt"
+            train = loadCsv(self.trainPath)
+            test = loadCsv(self.dataPath)
+            txtTrain = self.folderPath + "/Train Results.txt"
+            txtTest = self.folderPath + "/Test Results.txt"
 
-            results = model.test(data)
+            resultsTrain = model.test(train)
+            resultsTest = model.test(test)
 
             lblOutput.config(text="The model has been successfully tested! The results saved in the folder. :)",
                              fg="green")
+
             if type(model) == KMeansModel:
-                windowResults.showClustering(results)
+                windowResults.showClustering(resultsTrain, resultsTest)
             else:
-                windowResults.showResults(results, txtFile)
+                windowResults.showResults(resultsTrain, txtTrain)
+                windowResults.showResults(resultsTest, txtTest)
         except ValueError as ve:
             msg = "Error! " + str(ve)
             lblOutput.config(text=msg, fg="red")

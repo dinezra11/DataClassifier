@@ -63,10 +63,19 @@ def showResults(results: dict, txtFile: str):
     frameMatrix(window).pack(pady=10)
 
 
-def showClustering(data):
+def showClustering(train, test):
     """ Plot a scatterplot for the k-means clustering. """
-    pca = PCA(n_components=2)
+    '''pca = PCA(n_components=2)
     features = pd.DataFrame(pca.fit_transform(data.drop(columns=["cluster"])))
 
     sns.scatterplot(x=features[0], y=features[1], hue=data["cluster"])
+    plt.show()'''
+
+    pca = PCA(n_components=2)
+    featuresTrain = pd.DataFrame(pca.fit_transform(train.drop(columns=["cluster"])))
+    featuresTest = pd.DataFrame(pca.fit_transform(test.drop(columns=["cluster"])))
+
+    f, axes = plt.subplots(1, 2)
+    sns.scatterplot(x=featuresTrain[0], y=featuresTrain[1], hue=train["cluster"], ax=axes[0])
+    sns.scatterplot(x=featuresTest[0], y=featuresTest[1], hue=test["cluster"], ax=axes[1])
     plt.show()
