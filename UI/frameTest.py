@@ -112,20 +112,25 @@ class FrameTestUI:
             train = loadCsv(self.trainPath)
             test = loadCsv(self.dataPath)
 
-            resultsTrain = model.test(train)
-            resultsTest = model.test(test)
+            if type(model) == KMeansModel:
+                resultsTrain, silhuoetteTrain = model.test(train)
+                resultsTest, silhuoetteTest = model.test(test)
+            else:
+                resultsTrain = model.test(train)
+                resultsTest = model.test(test)
 
             lblOutput.config(text="The model has been successfully tested! The results saved in the folder. :)",
                              fg="green")
 
             if type(model) == KMeansModel:
-                windowResults.showClustering(resultsTrain, resultsTest)
+                windowResults.showClustering(resultsTrain, resultsTest, silhuoetteTrain, silhuoetteTest)
             else:
                 windowResults.showResults(resultsTrain, resultsTest, self.folderPath)
         except ValueError as ve:
             msg = "Error! " + str(ve)
             lblOutput.config(text=msg, fg="red")
         except Exception as e:
+            raise e
             lblOutput.config(text="Error! Couldn't perform the testing.", fg="red")
 
 

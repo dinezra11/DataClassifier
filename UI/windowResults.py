@@ -10,11 +10,14 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
+import numpy as np
+import tkinter as tk
+
+import numpy
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
-import tkinter as tk
 
 
 def frameResults(root, results: dict, txtFile: str):
@@ -64,7 +67,7 @@ def frameResults(root, results: dict, txtFile: str):
 
 
 def showResults(train: dict, test: dict, filePath: str):
-    # Show results in new tkinter's window
+    """ Show results in new tkinter's window"""
     window = tk.Tk()
     window.title("Model's Score")
     window.resizable(False, False)
@@ -76,19 +79,15 @@ def showResults(train: dict, test: dict, filePath: str):
     window.mainloop()
 
 
-def showClustering(train, test):
+def showClustering(train, test, scoreTrain: np.float, scoreTest: np.float):
     """ Plot a scatterplot for the k-means clustering. """
-    '''pca = PCA(n_components=2)
-    features = pd.DataFrame(pca.fit_transform(data.drop(columns=["cluster"])))
-
-    sns.scatterplot(x=features[0], y=features[1], hue=data["cluster"])
-    plt.show()'''
-
+    titles = ["Train Silhuoette Score: " + str(scoreTrain.__round__(4)),
+              "Test Silhuoette Score: " + str(scoreTest.__round__(4))]
     pca = PCA(n_components=2)
     featuresTrain = pd.DataFrame(pca.fit_transform(train.drop(columns=["cluster"])))
     featuresTest = pd.DataFrame(pca.fit_transform(test.drop(columns=["cluster"])))
 
     f, axes = plt.subplots(1, 2)
-    sns.scatterplot(x=featuresTrain[0], y=featuresTrain[1], hue=train["cluster"], ax=axes[0])
-    sns.scatterplot(x=featuresTest[0], y=featuresTest[1], hue=test["cluster"], ax=axes[1])
+    sns.scatterplot(x=featuresTrain[0], y=featuresTrain[1], hue=train["cluster"], ax=axes[0]).set(title=titles[0])
+    sns.scatterplot(x=featuresTest[0], y=featuresTest[1], hue=test["cluster"], ax=axes[1]).set(title=titles[1])
     plt.show()

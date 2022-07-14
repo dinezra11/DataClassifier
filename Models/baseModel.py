@@ -3,7 +3,7 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score, silhouette_score
 
 from Models.modelManager import saveModel
 
@@ -18,7 +18,7 @@ class BaseModel:
 
     @staticmethod
     def calculatePerformance(yPredict, yTrue):
-        """ Give the model's predictions from the test set and the actual values of the target class, calculate and
+        """ Get the model's predictions from the test set and the actual values of the target class, calculate and
         measure the performance of the model and return the details as a dictionary.
 
         @:param yPredict        The model's predictions.
@@ -32,3 +32,12 @@ class BaseModel:
             "f_measure": f1_score(yTrue, yPredict, average='macro'),
             "confusion matrix": confusion_matrix(yTrue, yPredict)
         }
+
+    @staticmethod
+    def calculateSilhuoette(data, model):
+        """ Calculate the clustering model's score according to the silhuoette method.
+
+        @:param data            The data for measuring the score.
+        @:param model           The clustering model. (K-Means)
+        """
+        return silhouette_score(data, model.labels_, metric="euclidean")
