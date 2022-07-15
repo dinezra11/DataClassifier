@@ -30,7 +30,7 @@ class DecisionTree(BaseModel):
 
         x = self.encoder.fit_transform(x).toarray()
 
-        self.model = tree.DecisionTreeClassifier().fit(x, y)
+        self.model = tree.DecisionTreeClassifier(criterion="entropy", max_depth=3).fit(x, y)
 
     def test(self, data):
         """ Test the model with a test dataset.
