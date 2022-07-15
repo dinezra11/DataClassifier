@@ -34,10 +34,10 @@ class BaseModel:
         }
 
     @staticmethod
-    def calculateSilhuoette(data, model):
+    def calculateSilhuoette(data, labels):
         """ Calculate the clustering model's score according to the silhuoette method.
 
         @:param data            The data for measuring the score.
-        @:param model           The clustering model. (K-Means)
+        @:param model           The labels of the fitted clustering model (K-Means).
         """
-        return silhouette_score(data, model.labels_, metric="euclidean")
+        return silhouette_score(data, labels, metric="euclidean")

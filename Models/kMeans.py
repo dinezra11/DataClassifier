@@ -40,7 +40,7 @@ class KMeansModel(BaseModel):
         data = pd.DataFrame(data)
         data["cluster"] = labels
 
-        return data, self.calculateSilhuoette(data, self.model)
+        return data, self.calculateSilhuoette(data, labels)
 
     def predict(self, entry):
         return self.model.predict(entry)
