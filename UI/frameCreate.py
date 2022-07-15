@@ -118,6 +118,9 @@ class FrameCreateUI:
                 self.comboTarget.set("Choose Target Feature..")
             else:
                 self.dataPath = None
+                columns = None
+                self.comboTarget['values'] = columns
+                self.comboTarget.set("")
 
         def folderSelect():
             self.folderPath = fd.askdirectory()
