@@ -81,12 +81,13 @@ class OurTree(BaseModel):
         @:param target     The class attribute for the classification.
         """
 
-        def generateNode(data, feature, target):
+        def generateNode(data, feature, target, treeDepth):
             """ Generate a tree node for the given feature in the dataset.
 
             @:param data         DataFrame object.
             @:param feature      The feature that this node represents.
             @:param target       The target class.
+            @:param treeDepth    The depth of the node. (For pre-pruning)
 
             @:return             A tree node.
             """
@@ -94,6 +95,15 @@ class OurTree(BaseModel):
             tree = dict()
 
             for feature_value, count in feature_value_count_dict.iteritems():
+                # Pre-Pruning
+                if treeDepth >= 2:
+                    mostFrequent = data[target].value_counts().idxmax()
+                    tree[feature_value] = mostFrequent
+                    data = data[data[feature] != feature_value]
+                    continue
+
+                # Continue with tree growth
+
                 feature_value_data = data[data[feature] == feature_value]
 
                 assigned_to_node = False  # Indicates whether the node is a leaf
@@ -110,10 +120,10 @@ class OurTree(BaseModel):
 
             return tree, data
 
-        def createTree(root, prev_feature_value, data, label):
+        def createTree(root, depth, prev_feature_value, data, label):
             if data.shape[0] != 0:  # if dataset becomes enpty after updating
                 max_info_feature = getBestFeature(data, label)  # most informative feature
-                tree, train_data = generateNode(data, max_info_feature, label)  # getting tree node and updated dataset
+                tree, train_data = generateNode(data, max_info_feature, label, depth)  # getting tree node and updated dataset
                 next_root = None
 
                 if prev_feature_value != None:  # add to intermediate node of the tree
@@ -128,10 +138,10 @@ class OurTree(BaseModel):
                     if branch == "?":  # if it is expandable
                         feature_value_data = train_data[
                             train_data[max_info_feature] == node]  # using the updated dataset
-                        createTree(next_root, node, feature_value_data, label)  # recursive call with updated dataset
+                        createTree(next_root, depth+1, node, feature_value_data, label)  # recursive call with updated dataset
 
         trainedTree = {}
-        createTree(trainedTree, None, df, target)
+        createTree(trainedTree, 0, None, df, target)
 
         self.tree = trainedTree
         self.target = target  # The desired class attribute
