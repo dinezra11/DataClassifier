@@ -101,7 +101,7 @@ def discretization(data: pd.DataFrame, discType: int, binsNumber: int):
         if discType == 0: # Discretization based equal-width.
             data[col] = pd.cut(x=data[col], bins=binsNumber)
         elif discType == 1: # Discretization based equal-frequency.
-            data[col] = pd.qcut(x=data[col], q=binsNumber)
+            data[col] = pd.qcut(x=data.rank(method="first")[col], q=binsNumber)
         else: # Discretization based entropy.
             data[col] = pd.cut(x=data[col], bins=binsNumber)
 
