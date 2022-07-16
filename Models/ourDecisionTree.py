@@ -103,7 +103,6 @@ class OurTree(BaseModel):
                     continue
 
                 # Continue with tree growth
-
                 feature_value_data = data[data[feature] == feature_value]
 
                 assigned_to_node = False  # Indicates whether the node is a leaf

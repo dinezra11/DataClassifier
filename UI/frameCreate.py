@@ -240,12 +240,22 @@ class FrameCreateUI:
                 "target": self.comboTarget.get(),
                 "folderPath": self.folderPath
             }
+
             if self.comboDisc.get() == "Equal-Width":
-                input["disc"] = (0, int(self.txtBins.get()))
+                try:
+                    input["disc"] = (0, int(self.txtBins.get()))
+                except ValueError:
+                    raise ValueError("Please specify value for bins.")
             elif self.comboDisc.get() == "Equal-Frequency":
-                input["disc"] = (1, int(self.txtBins.get()))
+                try:
+                    input["disc"] = (1, int(self.txtBins.get()))
+                except ValueError:
+                    raise ValueError("Please specify value for bins.")
             elif self.comboDisc.get() == "Entropy Based":
-                input["disc"] = (2, int(self.txtBins.get()))
+                try:
+                    input["disc"] = (2, int(self.txtBins.get()))
+                except ValueError:
+                    raise ValueError("Please specify value for bins.")
             else:
                 input["disc"] = None
 
@@ -291,6 +301,7 @@ class FrameCreateUI:
 
             self.setOutput("Model has been created, trained and saved. You can go test it now! :)", 0)
         except ValueError as ve:
+            raise ve
             self.setOutput(ve.__str__(), -1)
         except Exception as e:
             self.setOutput("Unexpected error occurred!", -1)

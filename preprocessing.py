@@ -105,6 +105,8 @@ def discretization(data: pd.DataFrame, discType: int, binsNumber: int):
         else: # Discretization based entropy.
             data[col] = pd.cut(x=data[col], bins=binsNumber)
 
+        data[col] = data[col].astype("category") # Convert the type to discrete type
+
 
 def findColumns(path: str):
     """ Load a data file, and return a list of its columns (features).
@@ -157,7 +159,7 @@ def dataPreprocess(data: pd.DataFrame, target: str, fillMissingCls: bool, normal
     # Drop rows with empty target value
     data.dropna(subset=[target], inplace=True)
     if is_numeric_dtype(data[target]):
-        data[target] = data[target].astype(bool)
+        data[target] = data[target].astype("category")
 
     # Fill missing values (according to target feature only or not)
     if fillMissingCls:
