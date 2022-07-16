@@ -25,6 +25,9 @@ class BaseModel:
         @:param yTrue           The actual values of the target class
         """
 
+        print(yPredict)
+        print(yTrue)
+
         return {
             "accuracy": accuracy_score(yTrue, yPredict),
             "precision": precision_score(yTrue, yPredict, average='macro'),

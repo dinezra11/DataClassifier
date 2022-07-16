@@ -6,6 +6,7 @@
               Lior Swissa   318657384
 """
 import pandas as pd
+from pandas.api.types import is_numeric_dtype
 import numpy as np
 from sklearn.model_selection import train_test_split as tts
 from sklearn.preprocessing import StandardScaler
@@ -52,19 +53,21 @@ def fillMissing(data: pd.DataFrame, target: str = None):
     """
     # Fill missing in numeric columns
     numeric = data.select_dtypes(include=np.number).columns
-    if target is None:
-        data[numeric] = data[numeric].fillna(data.mean(numeric_only=True))
-    else:
-        data[numeric] = data[numeric].fillna(data.groupby(target)[numeric].transform("mean"))
+    if not numeric.empty:
+        if target is None:
+            data[numeric] = data[numeric].fillna(data.mean(numeric_only=True))
+        else:
+            data[numeric] = data[numeric].fillna(data.groupby(target)[numeric].transform("mean"))
 
     # Fill missing in categorical columns
-    category = data.select_dtypes(include=object).columns
-    if target is None:
-        data[category] = data[category].fillna(data.mode().iloc[0])
-    else:
-        groups = data.groupby(target)
-        mode_by_group = groups[category].transform(lambda x: x.mode()[0])
-        data[category] = data[category].fillna(mode_by_group)
+    category = data.select_dtypes(exclude=np.number).columns
+    if not category.empty:
+        if target is None:
+            data[category] = data[category].fillna(data.mode().iloc[0])
+        else:
+            groups = data.groupby(target)
+            mode_by_group = groups[category].transform(lambda x: x.mode()[0])
+            data[category] = data[category].fillna(mode_by_group)
 
 
 def normalization(data: pd.DataFrame):
@@ -153,6 +156,8 @@ def dataPreprocess(data: pd.DataFrame, target: str, fillMissingCls: bool, normal
     """
     # Drop rows with empty target value
     data.dropna(subset=[target], inplace=True)
+    if is_numeric_dtype(data[target]):
+        data[target] = data[target].astype(bool)
 
     # Fill missing values (according to target feature only or not)
     if fillMissingCls:

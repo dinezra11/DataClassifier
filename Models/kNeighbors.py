@@ -30,7 +30,7 @@ class KNeighbors(BaseModel):
         self.target = target
         x = data.drop(columns=[self.target])
         y = data[self.target]
-        self.encoder = make_column_transformer((OneHotEncoder(), x.columns), remainder="passthrough")
+        self.encoder = make_column_transformer((OneHotEncoder(handle_unknown="ignore"), x.columns), remainder="passthrough")
 
         x = self.encoder.fit_transform(x)
 

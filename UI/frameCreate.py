@@ -257,12 +257,16 @@ class FrameCreateUI:
                 input["model"] = NaiveBayes
             elif self.comboModel.get() == "Sklearn's Decision Tree":
                 input["model"] = DecisionTree
-            elif self.comboModel.get() == "Sklearn's KNN":
-                input["model"] = KNeighbors
-                input["k"] = int(self.txtK.get())
             else:
-                input["model"] = KMeansModel
-                input["k"] = int(self.txtK.get())
+                try:
+                    input["k"] = int(self.txtK.get())
+                except ValueError:
+                    raise ValueError("Please specify value of 'k'.")
+                else:
+                    if self.comboModel.get() == "Sklearn's KNN":
+                        input["model"] = KNeighbors
+                    else:
+                        input["model"] = KMeansModel
 
             # Load the dataset
             self.setOutput("Loading dataset..")

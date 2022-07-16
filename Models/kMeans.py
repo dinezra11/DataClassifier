@@ -33,7 +33,7 @@ class KMeansModel(BaseModel):
         @:param data       The dataframe to test the model.
         """
 
-        encoder = make_column_transformer((OneHotEncoder(), data.columns), remainder="passthrough")
+        encoder = make_column_transformer((OneHotEncoder(handle_unknown="ignore"), data.columns), remainder="passthrough")
         data = encoder.fit_transform(data).toarray()
 
         labels = self.model.fit(data).labels_
