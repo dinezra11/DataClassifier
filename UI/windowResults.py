@@ -51,7 +51,7 @@ def frameResults(root, results: dict, txtFile: str):
     # Save results
     report = "Accuracy: " + str(results["accuracy"]) + "\n" + "Precision: " + str(
         results["precision"]) + "\n" + "Recall: " + str(results["recall"]) + "\n" "F Measure: " + str(
-        results["f_measure"]) + ""
+        results["f_measure"]) + "\n" + "Majority Rule Accuracy: " + str(results["majorityRule"]) + "\n"
     confMat = "True Positive: " + str(results["confusion matrix"][0][0]) + "\nFalse Positive: " + str(
         results["confusion matrix"][0][1]) + "\nFalse Negative: " + str(
         results["confusion matrix"][1][0]) + "\nTrue Negative: " + str(results["confusion matrix"][1][1])

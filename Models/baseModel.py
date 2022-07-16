@@ -30,7 +30,8 @@ class BaseModel:
             "precision": precision_score(yTrue, yPredict, average='macro'),
             "recall": recall_score(yTrue, yPredict, average='macro'),
             "f_measure": f1_score(yTrue, yPredict, average='macro'),
-            "confusion matrix": confusion_matrix(yTrue, yPredict)
+            "confusion matrix": confusion_matrix(yTrue, yPredict),
+            "majorityRule": int(yTrue.value_counts().max()) / int(yTrue.size)
         }
 
     @staticmethod

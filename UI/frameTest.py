@@ -108,6 +108,8 @@ class FrameTestUI:
 
     def performTesting(self, lblOutput):
         try:
+            if self.folderPath is None:
+                raise ValueError("No folder selected.")
             model = loadModel(self.modelPath)
             train = loadCsv(self.trainPath)
             test = loadCsv(self.dataPath)
