@@ -132,7 +132,6 @@ class FrameTestUI:
             msg = "Error! " + str(ve)
             lblOutput.config(text=msg, fg="red")
         except Exception as e:
-            raise e
             lblOutput.config(text="Error! Couldn't perform the testing.", fg="red")
 
 
