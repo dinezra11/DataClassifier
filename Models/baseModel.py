@@ -3,7 +3,7 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score, silhouette_score
+from sklearn.metrics import confusion_matrix, silhouette_score
 
 from Models.modelManager import saveModel
 
@@ -24,13 +24,16 @@ class BaseModel:
         @:param yPredict        The model's predictions.
         @:param yTrue           The actual values of the target class
         """
+        confMat = confusion_matrix(yTrue, yPredict)
+        tp, fp, fn, tn = int(confMat[0][0]), int(confMat[0][1]), int(confMat[1][0]), int(confMat[1][1])
+        precision, recall = tp / (tp + fp), tp / (tp + fn)
 
         return {
-            "accuracy": accuracy_score(yTrue, yPredict),
-            "precision": precision_score(yTrue, yPredict, average='macro'),
-            "recall": recall_score(yTrue, yPredict, average='macro'),
-            "f_measure": f1_score(yTrue, yPredict, average='macro'),
-            "confusion matrix": confusion_matrix(yTrue, yPredict),
+            "accuracy": (tp + tn) / int(yTrue.size),
+            "precision": precision,
+            "recall": recall,
+            "f_measure": (2*precision*recall) / (precision + recall),
+            "confusion matrix": confMat,
             "majorityRule": int(yTrue.value_counts().max()) / int(yTrue.size)
         }
 
