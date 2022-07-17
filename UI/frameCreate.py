@@ -301,7 +301,6 @@ class FrameCreateUI:
 
             self.setOutput("Model has been created, trained and saved. You can go test it now! :)", 0)
         except ValueError as ve:
-            raise ve
             self.setOutput(ve.__str__(), -1)
         except Exception as e:
             self.setOutput("Unexpected error occurred!", -1)
