@@ -4,7 +4,6 @@
               Lior Swissa   318657384
 """
 import numpy as np
-from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
