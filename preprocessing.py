@@ -105,7 +105,7 @@ def discretization(data: pd.DataFrame, discType: int, binsNumber: int):
         else: # Discretization based entropy.
             data[col] = pd.cut(x=data[col], bins=binsNumber)
 
-        data[col] = data[col].astype("category") # Convert the type to discrete type
+        data[col] = data[col].astype(str).astype("category") # Convert the type to discrete type
 
 
 def findColumns(path: str):

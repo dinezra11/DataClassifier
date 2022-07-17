@@ -169,7 +169,7 @@ class OurTree(BaseModel):
                 root_node = next(iter(tree))  # Get the first key of the dictionary
                 feature_value = instance[root_node]
 
-                if feature_value in tree[root_node]:  # Check if the feature value is in current tree node
+                if feature_value in tree[root_node] or feature_value in [str(v) for v in tree[root_node]]:  # Check if the feature value is in current tree node
                     return traverse(tree[root_node][feature_value], instance)  # Traverse the tree
                 else:
                     return None
