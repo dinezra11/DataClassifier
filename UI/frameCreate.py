@@ -297,6 +297,7 @@ class FrameCreateUI:
             else:
                 model.train(trainSet, input["target"])
 
+            model.preprocess = input # Save the pre-processing configurations of this model
             model.save(str(input["folderPath"]) + "/model")
 
             self.setOutput("Model has been created, trained and saved. You can go test it now! :)", 0)

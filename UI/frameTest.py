@@ -125,9 +125,9 @@ class FrameTestUI:
                              fg="green")
 
             if type(model) == KMeansModel:
-                windowResults.showClustering(resultsTrain, resultsTest, silhuoetteTrain, silhuoetteTest)
+                windowResults.showClustering(resultsTrain, resultsTest, silhuoetteTrain, silhuoetteTest, model.preprocess, self.folderPath)
             else:
-                windowResults.showResults(resultsTrain, resultsTest, self.folderPath)
+                windowResults.showResults(resultsTrain, resultsTest, model.preprocess, self.folderPath)
         except ValueError as ve:
             msg = "Error! " + str(ve)
             lblOutput.config(text=msg, fg="red")
