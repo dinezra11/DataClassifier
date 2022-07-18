@@ -120,6 +120,7 @@ class OurTree(BaseModel):
             return tree, data
 
         def createTree(root, depth, prev_feature_value, data, label):
+            """ Create the decision tree recursively. """
             if data.shape[0] != 0:  # if dataset becomes enpty after updating
                 max_info_feature = getBestFeature(data, label)  # most informative feature
                 tree, train_data = generateNode(data, max_info_feature, label, depth)  # getting tree node and updated dataset
@@ -162,7 +163,9 @@ class OurTree(BaseModel):
         return self.calculatePerformance(prediction, df[self.target])
 
     def predict(self, query):
+        """ Traverse the tree and predict the classification. """
         def traverse(tree, instance):
+            """ Recursive traversing. """
             if not isinstance(tree, dict):
                 return tree  # We reached a leaf node - return it
             else:
