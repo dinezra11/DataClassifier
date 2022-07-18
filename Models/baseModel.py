@@ -25,7 +25,7 @@ class BaseModel:
         @:param yTrue           The actual values of the target class
         """
         confMat = confusion_matrix(yTrue, yPredict)
-        tp, fp, fn, tn = int(confMat[0][0]), int(confMat[0][1]), int(confMat[1][0]), int(confMat[1][1])
+        tp, fp, fn, tn = int(confMat[1][1]), int(confMat[0][1]), int(confMat[1][0]), int(confMat[0][0])
         precision, recall = tp / (tp + fp), tp / (tp + fn)
 
         return {

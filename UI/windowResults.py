@@ -30,7 +30,7 @@ def frameResults(root, results: dict, txtFile: str):
     def frameMatrix():
         """ Draw the Confusion Matrix. """
         mat = results["confusion matrix"]
-        tp, fp, fn, tn = str(mat[0][0]), str(mat[0][1]), str(mat[1][0]), str(mat[1][1])
+        tp, fp, fn, tn = str(mat[1][1]), str(mat[0][1]), str(mat[1][0]), str(mat[0][0])
         frame = tk.Frame(subFrame)
 
         tk.Label(frame, text="Actual", fg="gray").grid(column=2, row=0, columnspan=2)
@@ -52,9 +52,9 @@ def frameResults(root, results: dict, txtFile: str):
     report = "Accuracy: " + str(results["accuracy"]) + "\n" + "Precision: " + str(
         results["precision"]) + "\n" + "Recall: " + str(results["recall"]) + "\n" "F Measure: " + str(
         results["f_measure"]) + "\n" + "Majority Rule Accuracy: " + str(results["majorityRule"]) + "\n"
-    confMat = "True Positive: " + str(results["confusion matrix"][0][0]) + "\nFalse Positive: " + str(
+    confMat = "True Positive: " + str(results["confusion matrix"][1][1]) + "\nFalse Positive: " + str(
         results["confusion matrix"][0][1]) + "\nFalse Negative: " + str(
-        results["confusion matrix"][1][0]) + "\nTrue Negative: " + str(results["confusion matrix"][1][1])
+        results["confusion matrix"][1][0]) + "\nTrue Negative: " + str(results["confusion matrix"][0][0])
     with open(txtFile, 'w') as f:
         f.write(str(report) + str(confMat))
 
