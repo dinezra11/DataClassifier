@@ -135,4 +135,4 @@ class OurNaiveBayes(BaseModel):
             # Return result
             return maxClass
         except Exception as e:
-            print("Error occured. Data input is invalid.\n")
+            raise ValueError("Error occured with the data. Maybe a discretization is needed?")
