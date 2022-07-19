@@ -3,7 +3,7 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
-
+import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
@@ -33,6 +33,8 @@ class KNeighbors(BaseModel):
         self.encoder = make_column_transformer((OneHotEncoder(handle_unknown="ignore"), x.columns), remainder="passthrough")
 
         x = self.encoder.fit_transform(x)
+        if type(x) != np.ndarray:
+            x = x.toarray()
 
         self.model = KNeighborsClassifier(n_neighbors=k)
         self.model.fit(x, y)
@@ -50,6 +52,8 @@ class KNeighbors(BaseModel):
         y = data[self.target]
 
         x = self.encoder.transform(x)
+        if type(x) != np.ndarray:
+            x = x.toarray()
 
         # Return test measurements
         return self.calculatePerformance(self.model.predict(x), y)

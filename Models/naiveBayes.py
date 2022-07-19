@@ -3,7 +3,7 @@
     Authors:  Din Ezra      208273094
               Lior Swissa   318657384
 """
-
+import numpy as np
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
@@ -31,7 +31,9 @@ class NaiveBayes(BaseModel):
         y = data[self.target]
         self.encoder = make_column_transformer((OneHotEncoder(handle_unknown="ignore"), x.columns), remainder="passthrough")
 
-        x = self.encoder.fit_transform(x).toarray()
+        x = self.encoder.fit_transform(x)
+        if type(x) != np.ndarray:
+            x = x.toarray()
 
         gnb = GaussianNB()
         self.model = gnb.fit(x, y)
@@ -48,7 +50,9 @@ class NaiveBayes(BaseModel):
         x = data.drop(columns=[self.target])
         y = data[self.target]
 
-        x = self.encoder.transform(x).toarray()
+        x = self.encoder.transform(x)
+        if type(x) != np.ndarray:
+            x = x.toarray()
 
         # Return test measurements
         return self.calculatePerformance(self.model.predict(x), y)

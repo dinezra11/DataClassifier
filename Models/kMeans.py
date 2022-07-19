@@ -33,7 +33,10 @@ class KMeansModel(BaseModel):
         """
 
         encoder = make_column_transformer((OneHotEncoder(handle_unknown="ignore"), data.columns), remainder="passthrough")
-        data = encoder.fit_transform(data).toarray()
+
+        data = encoder.fit_transform(data)
+        if type(data) != np.ndarray:
+            data = data.toarray()
 
         labels = self.model.fit(data).labels_
         data = pd.DataFrame(data)
