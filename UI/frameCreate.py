@@ -304,7 +304,6 @@ class FrameCreateUI:
         except ValueError as ve:
             self.setOutput(ve.__str__(), -1)
         except AttributeError as ae:
-            raise ae
             self.setOutput("Error! " + ae.__str__(), -1)
         except Exception as e:
             self.setOutput("Unexpected error occurred!", -1)
