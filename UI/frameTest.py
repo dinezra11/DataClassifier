@@ -133,6 +133,7 @@ class FrameTestUI:
             lblOutput.config(text=msg, fg="red")
         except Exception as e:
             lblOutput.config(text="Error! Couldn't perform the testing.", fg="red")
+            print(e)  # Debug
 
 
 def getFrame(window, navigateFunction):
